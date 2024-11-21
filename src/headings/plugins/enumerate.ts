@@ -1,5 +1,5 @@
-import { Plugin, PluginDefinition } from "../../plugins";
-import { HeadingNode } from "../";
+import { Plugin, PluginDefinition } from "../../plugins.js";
+import { HeadingNode } from "../index.js";
 
 export interface EnumerateConfig {
   maxLevel: number;

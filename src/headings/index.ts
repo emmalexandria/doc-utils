@@ -1,8 +1,8 @@
 export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-export { autoLink, AutoLinkConfig, toc, TocConfig, slugs, SlugsPlugin, enumerate, EnumerateConfig } from './plugins'
+export { autoLink, AutoLinkConfig, toc, TocConfig, slugs, SlugsPlugin, enumerate, EnumerateConfig } from './plugins/index.js'
 
-import { type TransformFunc, Transform, defineTransform } from '../plugins';
+import { type TransformFunc, Transform, defineTransform } from '../plugins.js';
 
 export interface HeadingTransformConfig {
   headings: HeadingTag[],

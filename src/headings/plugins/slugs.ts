@@ -1,5 +1,5 @@
-import { HeadingNode } from "..";
-import { Plugin, PluginDefinition } from "../../plugins"
+import { HeadingNode } from "../index.js";
+import { Plugin, PluginDefinition } from "../../plugins.js"
 import Slugger from "github-slugger"
 
 export interface SlugsPlugin {
