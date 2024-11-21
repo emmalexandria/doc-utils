@@ -2,7 +2,7 @@ import Slugger from 'github-slugger';
 import { HeadingNode } from './tree';
 import { HeadingStep } from './config';
 
-export const slugsStep: HeadingStep = () => {
+export const slugs: HeadingStep = () => {
   return (headings, tree) => {
     const slugger = new Slugger();
     const processNode = (node: HeadingNode) => {

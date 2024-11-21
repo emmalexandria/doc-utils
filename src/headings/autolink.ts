@@ -1,7 +1,7 @@
 import { HeadingStep } from './config';
 import { HeadingNode } from './tree';
 
-export const autoLinkStep: HeadingStep = () => {
+export const autoLink: HeadingStep = () => {
   return (headingsConfig, tree) => {
     const linkNode = (node: HeadingNode) => {
       const linkTag: HTMLAnchorElement = document.createElement('a');

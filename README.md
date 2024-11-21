@@ -20,16 +20,16 @@ you don't have access to the rich plugin library available for `remark`, `rehype
 #### Basic usage
 
 ```js
-import {processHeadings, slugsStep, autoLinkStep, tocStep} from 'doc-utils/headings.js'
+import {processHeadings, slugs, autoLink, toc} from 'doc-utils/headings.js'
 
-processHeadings([slugsStep(), autoLinkStep(), tocStep()])
+processHeadings([slugs(), autoLink(), toc()])
 ```
 It is important to note that each step is run in the order it is passed. For this reason, it is important to generate slugs before either of the other plugins run as they both rely on the header elements having IDs.
 
 #### Customising header selection
 By default, `processHeadings` will select header elements from `<h1>` to `<h6>` with the attribute `data-doc-utils="true"`. This can be customised by passing configuration to `processHeadings`
 ```js
-processHeadings([slugsStep(), autoLinkStep(), tocStep()], {
+processHeadings([slugs(), autoLink(), toc()], {
                 dataAttribute: 'data-toc="true"', headers: ["h1", "h2", "h3"]
                 });
 ```

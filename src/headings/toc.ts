@@ -1,8 +1,5 @@
-import { ProgramUpdateLevel } from 'typescript';
-import { getHeadings, buildHeadingTree } from './tree';
-import { type HeadingTag } from '.';
-import { type HeadingStep, type HeadingsConfig } from "./config"
-import Slugger from 'github-slugger';
+import { HeadingNode } from './tree';
+import { type HeadingStep } from "./config"
 
 interface LevelClasses {
   list: string;
@@ -10,11 +7,7 @@ interface LevelClasses {
   link: string;
 }
 
-export interface HeadingNode {
-  element: HTMLHeadingElement;
-  level: number;
-  children: HeadingNode[];
-}
+
 
 /**
  * Defines options for TOC generation
@@ -47,7 +40,7 @@ const defaultConfig: TocConfig = {
   },
 };
 
-export const tocStep: HeadingStep = (userConfig: TocConfig) => {
+export const toc: HeadingStep = (userConfig: TocConfig) => {
 
   return (hConfig, tree) => {
     const config = { ...defaultConfig, ...userConfig }
@@ -117,3 +110,4 @@ const getClassesForLevel = (level: number, config: TocConfig): LevelClasses => {
     return config.classes['default'];
   }
 };
+
