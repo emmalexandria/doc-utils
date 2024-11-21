@@ -1,18 +1,31 @@
 {
   "name": "doc-utils",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A set of simple JS utilities for a variety of things such as generating a table of contents, or adding slugs to headers",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "run-s build:clean build:ts-build",
+    "build:clean": "del ./dist/*",
+    "build:ts-build": "tsc",
+    "build:ts-watch": "tsc --watch",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-typescript": "^12.1.1",
-    "rollup": "^4.27.3",
-    "rollup-plugin-dts": "^6.1.1",
-    "typescript": "^5.6.3"
+    "happy-dom": "^15.11.6",
+    "tslib": "^2.8.1",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.5"
+  },
+  "dependencies": {
+    "github-slugger": "^2.0.0"
   }
 }

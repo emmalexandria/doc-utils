@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "esnext",
+    "rootDir": "src",
+    "outDir": "dist",
+    "declaration": true,
+    "strict": true,
+    "module": "esnext",
+    "lib": [
+      "es2016",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+  },
+  "include": [
+    "src"
+  ]
+}
