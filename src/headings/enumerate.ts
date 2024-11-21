@@ -21,7 +21,7 @@ export const enumerate: HeadingStep = (userConfig: Partial<EnumerateConfig>) => 
     const addNumberToNode = (node: HeadingNode, indices: number[], level: number) => {
       const indicesSubset = indices.slice(0, level + 1)
       const text = indicesSubset.join(".")
-      node.element.setAttribute("data-index", text)
+      node.element.setAttribute("data-header-level", text)
     }
 
     const enumerateNode = (node: HeadingNode, level: number = 0) => {
