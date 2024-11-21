@@ -4,3 +4,5 @@
 you don't have access to the rich plugin library available for `remark`, `rehype`, and `retext`.
 
 # Installation
+
+`npm install doc-utils`
