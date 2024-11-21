@@ -13,6 +13,11 @@
   "files": [
     "dist/*"
   ],
+  "exports": {
+    "./*": {
+      "default": "./dist/*"
+    }
+  },
   "scripts": {
     "build": "run-s build:clean build:ts-build",
     "build:clean": "del ./dist/*",
