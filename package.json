@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A set of simple JS utilities for a variety of things such as generating a table of contents, or adding slugs to headers",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -14,8 +14,21 @@
     "dist/*"
   ],
   "exports": {
-    "./*": {
-      "default": "./dist/*"
+    ".": {
+      "default": "./dist/index.js",
+      "types:": "./dist/index.d.ts"
+    },
+    "./plugins": {
+      "default": "./dist/plugins.js",
+      "types": "./dist/plugins.d.ts"
+    },
+    "./headings": {
+      "default": "./dist/headings/index.js",
+      "types": "./dist/headings/index.d.ts"
+    },
+    "./headings/*": {
+      "default": "./dist/headings/*.js",
+      "types": "./dist/headings/*.d.ts"
     }
   },
   "scripts": {
