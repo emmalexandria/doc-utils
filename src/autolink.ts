@@ -1,4 +1,8 @@
-import { getHeadings } from "./shared"
+import { getHeadings } from "./headings/headingtree"
+
+export interface autoLinkHeadingsConfig {
+
+}
 
 export const autoLinkHeadings = (dataAttribute?: string) => {
   const headings = getHeadings(["h1", "h2", "h3", "h4", "h5", "h6"], dataAttribute)

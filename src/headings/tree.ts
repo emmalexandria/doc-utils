@@ -1,4 +1,4 @@
-export type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
+import { HeadingTag } from "."
 
 export interface HeadingNode {
   element: HTMLHeadingElement,
@@ -46,7 +46,4 @@ export const buildHeadingTree = (headings: HTMLHeadingElement[]) => {
 
   return root
 }
-
-
-
 
