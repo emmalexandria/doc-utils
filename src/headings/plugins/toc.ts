@@ -1,18 +1,16 @@
-import { HeadingNode } from './tree';
-import { type HeadingStep } from "./config"
+import { HeadingNode } from '../';
+import { Plugin, PluginDefinition } from "../../plugins"
 
-interface LevelClasses {
+export interface LevelClasses {
   list: string;
   item: string;
   link: string;
 }
 
-
-
 /**
  * Defines options for TOC generation
  */
-interface TocConfig {
+export interface TocConfig {
   /** Container element. Pass either an HTML element object or a query selector string */
   container: HTMLElement | string;
   /** Whether or not the TOC will be placed inside a <nav> */
@@ -26,35 +24,36 @@ interface TocConfig {
   };
 }
 
-const defaultConfig: TocConfig = {
-  container: '#tocContainer',
-  navRoot: true,
-  ordered: true,
-  classes: {
-    root: 'toc-root',
-    default: {
-      list: 'toc-list',
-      link: 'toc-link',
-      item: 'toc-item',
+
+
+export const toc: Plugin<TocConfig, HeadingNode[]> = (userConfig): PluginDefinition<HeadingNode[]> => {
+  const defaultConfig: TocConfig = {
+    container: '#tocContainer',
+    navRoot: true,
+    ordered: true,
+    classes: {
+      root: 'toc-root',
+      default: {
+        list: 'toc-list',
+        link: 'toc-link',
+        item: 'toc-item',
+      },
     },
-  },
-};
+  };
 
-export const toc: HeadingStep = (userConfig: TocConfig) => {
+  const config = { ...defaultConfig, ...userConfig }
 
-  return (hConfig, tree) => {
-    const config = { ...defaultConfig, ...userConfig }
-
-    const getRoot = (root: HTMLElement | string): HTMLElement => {
-      if (root instanceof HTMLElement) {
+  return (transformResult) => {
+    const getRoot = (root: Element | string): Element => {
+      if (root instanceof Element) {
         return root;
       } else {
-        return document.querySelector(root) as HTMLElement;
+        return document.querySelector(root) as Element;
       }
     };
 
-    const root = getRoot(config.container);
-    const toc = generateTocHtml(tree, config)
+    const root = getRoot(config.container)
+    const toc = generateTocHtml(transformResult, config)
 
     if (!config.navRoot) {
       root.appendChild(toc);
@@ -66,9 +65,9 @@ export const toc: HeadingStep = (userConfig: TocConfig) => {
       root.appendChild(nav);
     }
 
-
   }
 }
+
 
 const generateTocHtml = (
   nodes: HeadingNode[],

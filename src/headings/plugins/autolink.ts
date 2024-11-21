@@ -1,8 +1,12 @@
-import { HeadingStep } from './config';
-import { HeadingNode } from './tree';
+import { Plugin, PluginDefinition } from '../../plugins';
+import { HeadingNode } from '..';
 
-export const autoLink: HeadingStep = () => {
-  return (headingsConfig, tree) => {
+export interface AutoLinkConfig {
+
+}
+
+export const autoLink: Plugin<AutoLinkConfig, HeadingNode[]> = (config): PluginDefinition<HeadingNode[]> => {
+  return (transformResult: HeadingNode[]) => {
     const linkNode = (node: HeadingNode) => {
       const linkTag: HTMLAnchorElement = document.createElement('a');
       linkTag.href = `#${node.element.id}`
@@ -15,8 +19,11 @@ export const autoLink: HeadingStep = () => {
       node.children.forEach(linkNode)
     }
 
-    tree.forEach(linkNode)
+    transformResult.forEach(linkNode)
+
   }
 }
+
+
 
 

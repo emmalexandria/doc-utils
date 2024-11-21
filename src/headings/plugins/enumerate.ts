@@ -1,21 +1,20 @@
-import { HeadingStep } from "./config";
-import { HeadingNode } from "./tree";
+import { Plugin, PluginDefinition } from "../../plugins";
+import { HeadingNode } from "../";
 
-interface EnumerateConfig {
+export interface EnumerateConfig {
   maxLevel: number;
   absoluteNumber: boolean
   numberClasses: string
 }
 
-const DefaultConfig: EnumerateConfig = {
-  maxLevel: 6,
-  absoluteNumber: true,
-  numberClasses: ""
-}
-
-export const enumerate: HeadingStep = (userConfig: Partial<EnumerateConfig>) => {
+export const enumerate: Plugin<EnumerateConfig, HeadingNode[]> = (userConfig): PluginDefinition<HeadingNode[]> => {
+  const DefaultConfig: EnumerateConfig = {
+    maxLevel: 6,
+    absoluteNumber: true,
+    numberClasses: ""
+  }
   const config = { ...DefaultConfig, ...userConfig }
-  return (headings, tree) => {
+  return (transformResult) => {
     const indices: number[] = new Array(config.maxLevel).fill(0)
 
     const addNumberToNode = (node: HeadingNode, indices: number[], level: number) => {
@@ -38,7 +37,7 @@ export const enumerate: HeadingStep = (userConfig: Partial<EnumerateConfig>) => 
       node.children.forEach((child) => { enumerateNode(child, childLevel) })
     }
 
-    tree.forEach((node) => {
+    transformResult.forEach((node) => {
       enumerateNode(node)
     })
 

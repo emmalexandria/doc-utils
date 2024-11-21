@@ -1,4 +1,4 @@
-import { buildHeadingTree, type HeadingNode } from "../src/headings/tree";
+import { buildHeadingTree, type HeadingNode } from "../src/headings";
 
 import { expect, test } from 'vitest'
 

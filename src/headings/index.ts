@@ -1,32 +1,83 @@
-import { DefaultHeadingsConfig, HeadingsConfig, type HeadingTransform } from "./config";
-import { buildHeadingTree, getHeadings } from "./tree";
-
 export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-export { slugs } from "./slugs"
-export { toc } from "./toc"
-export { autoLink } from "./autolink"
-export { enumerate } from './enumerate'
+export { autoLink, AutoLinkConfig, toc, TocConfig, slugs, SlugsPlugin, enumerate, EnumerateConfig } from './plugins'
 
+import { type TransformFunc, Transform, defineTransform } from '../plugins';
 
-export const processHeadings = (steps: HeadingTransform[], rootConfig: HeadingsConfig = DefaultHeadingsConfig) => {
-  const config = { ...DefaultHeadingsConfig, ...rootConfig }
-  const markerElement: HTMLDivElement = document.createElement('div')
-  markerElement.id = "processHeadingsHasRun"
-  markerElement.ariaHidden = "true"
+export interface HeadingTransformConfig {
+  headings: HeadingTag[],
+  dataAttribute: string,
+}
 
-  const markerElementResult = document.body.querySelector(`#${markerElement.id}`)
-  if (markerElementResult != null) {
-    return
+export const HeadingTransform: defineTransform<HeadingTransformConfig, HeadingNode[]> = (config: HeadingTransformConfig, root: Node) => {
+  return () => {
+    return new Transform(headingTreeTransform, config, root)
   }
+}
 
-  const headings = getHeadings(config.headings, config.dataAttribute)
-  const tree = buildHeadingTree(headings)
+const headingTreeTransform: TransformFunc<HeadingTransformConfig, HeadingNode[]> = (config: HeadingTransformConfig) => {
+  return (root: Node, userConfig: Partial<HeadingTransformConfig>): HeadingNode[] => {
+    const defaultConfig: HeadingTransformConfig = {
+      headings: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      dataAttribute: `data-doc-utils${"=true"}`
+    }
 
-  steps.forEach((step) => {
-    step(config, tree)
-  })
+    const config = { ...defaultConfig, ...userConfig }
 
-  document.body.appendChild(markerElement)
+    const headings = getHeadings(config.headings, config.dataAttribute)
+    return buildHeadingTree(headings)
+  }
+}
 
+export interface HeadingNode {
+  element: HTMLHeadingElement
+  level: number,
+  children: HeadingNode[]
+}
+
+export const getHeadings = (headings: HeadingTag[], attribute?: string) => {
+  const headingQueries: string[] = headings.map((tag) => {
+    if (attribute) {
+      return `${tag}[${attribute}]`;
+    } else {
+      return `${tag}`;
+    }
+  });
+  return Array.from(document.querySelectorAll(headingQueries.join(','))).map(
+    (el) => {
+      return el as HTMLHeadingElement;
+    },
+  );
 };
+
+export const buildHeadingTree = (headings: HTMLHeadingElement[]) => {
+  const root: HeadingNode[] = [];
+  const stack: HeadingNode[] = [];
+
+  headings.forEach((heading) => {
+    const level = parseInt(heading.tagName[1]);
+    const node: HeadingNode = {
+      element: heading,
+      level,
+      children: [],
+    };
+
+    while (stack.length > 0 && stack[stack.length - 1].level >= level) {
+      stack.pop();
+    }
+
+    if (stack.length == 0) {
+      root.push(node);
+    } else {
+      stack[stack.length - 1].children.push(node);
+    }
+
+    stack.push(node);
+  });
+
+  return root;
+};
+
+
+
+
