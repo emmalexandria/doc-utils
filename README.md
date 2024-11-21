@@ -15,7 +15,7 @@ you don't have access to the rich plugin library available for `remark`, `rehype
 1. `slugs` — *Generate and add IDs to heading elements*
 2. `autolink` — *Automatically wrap heading elements in <a> tags which link to the heading's ID*
 3. `toc` — *Automatically generate a table of contents with support for different classes at each level or a default set of classes*
-4. `enumerate` — *Prepend numbers to headings to indicate where in the document structure they lie*
+4. `enumerate` — *Add data-header-levels to header elements describing their level (e.g. 1, 1.1)*
 
 #### Basic usage
 
