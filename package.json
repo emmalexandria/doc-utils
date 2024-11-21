@@ -1,5 +1,6 @@
 {
-  "name": "document-utils",
+  "name": "@doc-utils/utils",
+  "private": false,
   "version": "1.0.0",
   "description": "A set of simple JS utilities for a variety of things such as generating a table of contents, or adding slugs to headers",
   "main": "dist/index.js",
