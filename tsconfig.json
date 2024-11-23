@@ -4,14 +4,14 @@
     "removeComments": false,
     "sourceMap": true,
     "noEmitOnError": true,
-    "target": "es2015",
+    "target": "esnext",
     "rootDir": "src",
     "outDir": "dist",
     "declaration": true,
     "strict": true,
     "module": "nodenext",
     "lib": [
-      "es2016",
+      "esnext",
       "dom"
     ],
     "skipLibCheck": true,

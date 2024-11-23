@@ -13,9 +13,10 @@
     "dist/*"
   ],
   "exports": {
-    ".": {
-      "default": "./dist/index.js",
-      "types:": "./dist/index.d.ts"
+    ".": "./dist/index.js",
+    "./config": {
+      "default": "./dist/config.js",
+      "types": "./dist/config.d.ts"
     },
     "./plugins": {
       "default": "./dist/plugins.js",

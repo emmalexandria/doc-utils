@@ -53,6 +53,7 @@ export const toc: Plugin<TocConfig, HeadingNode[]> = (userConfig): PluginDefinit
     };
 
     const root = getRoot(config.container)
+    console.log(root)
     const toc = generateTocHtml(transformResult, config)
 
     if (!config.navRoot) {

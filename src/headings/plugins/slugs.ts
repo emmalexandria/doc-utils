@@ -10,6 +10,7 @@ export const slugs: Plugin<SlugsPlugin, HeadingNode[]> = (config): PluginDefinit
   return (transformResult) => {
     const slugger = new Slugger();
 
+
     const processNode = (node: HeadingNode) => {
       if (!node.element.id && node.element.textContent) {
         node.element.id = slugger.slug(node.element.textContent)

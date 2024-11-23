@@ -7,6 +7,7 @@ export interface AutoLinkConfig {
 
 export const autoLink: Plugin<AutoLinkConfig, HeadingNode[]> = (config): PluginDefinition<HeadingNode[]> => {
   return (transformResult: HeadingNode[]) => {
+    console.log(transformResult)
     const linkNode = (node: HeadingNode) => {
       const linkTag: HTMLAnchorElement = document.createElement('a');
       linkTag.href = `#${node.element.id}`

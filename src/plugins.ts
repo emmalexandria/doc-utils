@@ -1,25 +1,27 @@
+import { ConfigDefault } from "./config.js"
+
 export class Transform<C, O> {
   plugins: PluginDefinition<O>[]
-  config: C
+  config: ConfigDefault<C>
   func: TransformFunc<C, O>
-  root: Node
+  root: Element | undefined
 
-  constructor(func: TransformFunc<C, O>, config: C, root: Node) {
+  constructor(func: TransformFunc<C, O>, config: ConfigDefault<C>, root?: Element) {
     this.plugins = []
     this.config = config
     this.func = func
-    this.root = root
   }
 
-  add<C>(plugin: Plugin<C, O>, config?: C) {
-    this.plugins.push(plugin(config))
-    return this
+  add<C>(plugin: Plugin<C, O>, userConfig?: Partial<C>) {
+    this.plugins.push(plugin(userConfig))
   }
-
+  setplugins(plugins: PluginDefinition<O>[]) {
+    this.plugins = plugins
+  };
   run() {
-    const transformFunc = this.func(this.config)
+    const transformFunc = this.func(this.config.get())
     if (transformFunc) {
-      const transformOutput = transformFunc(this.root)
+      const transformOutput = transformFunc()
 
       this.plugins.forEach((plugin) => {
         plugin(transformOutput)
@@ -28,10 +30,16 @@ export class Transform<C, O> {
   }
 }
 
-export type defineTransform<C, O> = (config: C, root: Node) => () => Transform<C, O>
+export interface defineTransform<C, O> {
+  config: ConfigDefault<C>;
+  root?: Element;
+  transformFunc: TransformFunc<C, O>;
+  get(userConfig?: Partial<C>): Transform<C, O>
+}
 
-export type TransformFunc<C, O> = (config: C) => ((root: Node, userConfig?: any) => O) | undefined
+export type TransformDefinition<C, O> = (userConfig?: Partial<C>) => Transform<C, O>
 
+export type TransformFunc<C, O> = (config: C) => ((userConfig?: any) => O) | undefined
 
 export type PluginDefinition<O> = (transformResult: O) => void
 

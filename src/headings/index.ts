@@ -2,21 +2,28 @@ export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 export { autoLink, AutoLinkConfig, toc, TocConfig, slugs, SlugsPlugin, enumerate, EnumerateConfig } from './plugins/index.js'
 
-import { type TransformFunc, Transform, defineTransform } from '../plugins.js';
+import { ConfigDefault } from '../config.js';
+import { type TransformFunc, Transform, TransformDefinition } from '../plugins.js';
 
 export interface HeadingTransformConfig {
   headings: HeadingTag[],
   dataAttribute: string,
 }
 
-export const HeadingTransform: defineTransform<HeadingTransformConfig, HeadingNode[]> = (config: HeadingTransformConfig, root: Node) => {
-  return () => {
-    return new Transform(headingTreeTransform, config, root)
-  }
+export const DefaultHeadingTransformConfig: HeadingTransformConfig = {
+  headings: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+  dataAttribute: 'data-doc-utils=true'
 }
 
-const headingTreeTransform: TransformFunc<HeadingTransformConfig, HeadingNode[]> = (config: HeadingTransformConfig) => {
-  return (root: Node, userConfig: Partial<HeadingTransformConfig>): HeadingNode[] => {
+export const HeadingTransform: TransformDefinition<HeadingTransformConfig, HeadingNode[]> =
+  (userConfig?: Partial<HeadingTransformConfig>) => {
+    const config = new ConfigDefault(DefaultHeadingTransformConfig, userConfig)
+    const transform = new Transform(headingTreeTransform, config)
+    return transform
+  }
+
+export const headingTreeTransform: TransformFunc<HeadingTransformConfig, HeadingNode[]> = (config: HeadingTransformConfig) => {
+  return (userConfig: Partial<HeadingTransformConfig>): HeadingNode[] => {
     const defaultConfig: HeadingTransformConfig = {
       headings: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
       dataAttribute: `data-doc-utils${"=true"}`
