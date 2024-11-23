@@ -12,13 +12,14 @@ export interface HeadingTransformConfig {
 
 export const DefaultHeadingTransformConfig: HeadingTransformConfig = {
   headings: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-  dataAttribute: 'data-doc-utils=true'
+  dataAttribute: 'data-doc-utils="true"'
 }
 
 export const HeadingTransform: TransformDefinition<HeadingTransformConfig, HeadingNode[]> =
   (userConfig?: Partial<HeadingTransformConfig>) => {
     const config = new ConfigDefault(DefaultHeadingTransformConfig, userConfig)
     const transform = new Transform(headingTreeTransform, config)
+    console.log("Hello")
     return transform
   }
 
@@ -30,7 +31,7 @@ export const headingTreeTransform: TransformFunc<HeadingTransformConfig, Heading
     }
 
     const config = { ...defaultConfig, ...userConfig }
-
+    console.log("Grabbing headings")
     const headings = getHeadings(config.headings, config.dataAttribute)
     return buildHeadingTree(headings)
   }
@@ -50,6 +51,7 @@ export const getHeadings = (headings: HeadingTag[], attribute?: string) => {
       return `${tag}`;
     }
   });
+  console.log(headingQueries)
   return Array.from(document.querySelectorAll(headingQueries.join(','))).map(
     (el) => {
       return el as HTMLHeadingElement;
