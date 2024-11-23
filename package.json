@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A set of simple JS utilities for a variety of things such as generating a table of contents, or adding slugs to headers",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
